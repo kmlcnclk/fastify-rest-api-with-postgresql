@@ -16,6 +16,7 @@ class UserRepository {
     this.getUserById = this.getUserById.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
+    this.findOne = this.findOne.bind(this);
   }
 
   public async getUsers(): Promise<IUser[]> {
@@ -66,6 +67,14 @@ class UserRepository {
     await this.userDao.delete(id);
 
     await pool.release();
+  }
+
+  public async findOne(query: string): Promise<IUser | null> {
+    const pool = await this.postgresDB.connect();
+    const user = await this.userDao.findOne(query);
+    await pool.release();
+
+    return user;
   }
 }
 

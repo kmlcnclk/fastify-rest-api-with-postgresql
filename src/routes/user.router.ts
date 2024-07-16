@@ -11,6 +11,7 @@ class UserRouter {
     this.userController = new UserController();
 
     this.routes = this.routes.bind(this);
+    this.addSchemas = this.addSchemas.bind(this);
   }
 
   public addSchemas(fastify: FastifyInstance) {

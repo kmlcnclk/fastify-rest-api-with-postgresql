@@ -20,6 +20,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@fastify/jwt": "^8.0.1",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
     "pg": "^8.12.0",

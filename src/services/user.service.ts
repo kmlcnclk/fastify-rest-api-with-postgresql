@@ -14,6 +14,7 @@ class UserService {
     this.getUserById = this.getUserById.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
+    this.findOne = this.findOne.bind(this);
   }
 
   public getUsers(): Promise<IUser[]> {
@@ -46,6 +47,10 @@ class UserService {
 
   public async deleteUser(id: string): Promise<void> {
     await this.userRepository.deleteUser(id);
+  }
+
+  public findOne(query: string): Promise<IUser | null> {
+    return this.userRepository.findOne(query);
   }
 }
 
