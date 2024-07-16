@@ -1,10 +1,13 @@
 import { FastifyInstance } from "fastify";
 import UserController from "../controllers/user.controller";
+import UserMiddleware from "../middlewares/user.middleware";
 
 class UserRouter {
+  userMiddleware: UserMiddleware;
   userController: UserController;
 
   constructor() {
+    this.userMiddleware = new UserMiddleware();
     this.userController = new UserController();
 
     this.routes = this.routes.bind(this);
@@ -66,6 +69,7 @@ class UserRouter {
             },
           },
         },
+        preHandler: [this.userMiddleware.validateUserId],
       },
       this.userController.updateUser
     );
@@ -81,6 +85,7 @@ class UserRouter {
             },
           },
         },
+        preHandler: [this.userMiddleware.validateUserId],
       },
       this.userController.deleteUser
     );
