@@ -50,12 +50,12 @@ class UserController {
   ) {
     const id = request.params.id;
 
-    const { status, data } = await this.userService.getUserById(id);
+    const user = await this.userService.getUserById(id);
 
     return reply
-      .code(status)
+      .code(200)
       .header("Content-Type", "application/json; charset=utf-8")
-      .send({ data });
+      .send({ data: user });
   }
 
   public async deleteUser(

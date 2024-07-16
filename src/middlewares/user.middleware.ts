@@ -20,9 +20,7 @@ class UserMiddleware {
   ): Promise<void> {
     const { id } = request.params;
 
-    const { status, data } = await this.userService.getUserById(id);
-
-    if (status === 404) return reply.code(status).send({ data });
+    await this.userService.getUserById(id);
   }
 }
 

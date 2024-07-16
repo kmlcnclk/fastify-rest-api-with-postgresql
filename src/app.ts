@@ -14,6 +14,11 @@ const fastify = Fastify({
 
 async function main() {
   const mainRouter = new MainRouter();
+
+  await fastify.setErrorHandler((error, request, reply) => {
+    reply.send(error);
+  });
+
   await fastify.register(mainRouter.routes, { prefix: "/api" });
 
   await fastify.listen({

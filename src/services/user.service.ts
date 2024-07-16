@@ -1,6 +1,7 @@
 import UserRepository from "../repositories/user.repository";
 import UserDto from "../dto/user.dto";
 import { IUser } from "../types/user.type";
+import CustomError from "../helpers/CustomError";
 
 class UserService {
   private userRepository: UserRepository;
@@ -19,15 +20,12 @@ class UserService {
     return this.userRepository.getUsers();
   }
 
-  public async getUserById(id: string): Promise<{
-    status: number;
-    data: IUser | { message: string };
-  }> {
+  public async getUserById(id: string): Promise<IUser> {
     const user = await this.userRepository.getUserById(id);
 
-    if (!user) return { data: { message: "User not found" }, status: 404 };
+    if (!user) throw new CustomError("User not found", 404);
 
-    return { status: 200, data: user };
+    return user;
   }
 
   public createUser(data: UserDto): Promise<IUser> {
