@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify";
 import AuthController from "../controllers/auth.controller";
-import fastifyJwt from "@fastify/jwt";
 
 class AuthRouter {
   authController: AuthController;
@@ -26,10 +25,6 @@ class AuthRouter {
 
   public async routes(fastify: FastifyInstance) {
     this.addSchemas(fastify);
-
-    fastify.register(fastifyJwt, {
-      secret: "supersecret",
-    });
 
     fastify.post(
       "/sign-in",

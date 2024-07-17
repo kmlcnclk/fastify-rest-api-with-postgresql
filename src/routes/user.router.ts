@@ -1,14 +1,17 @@
 import { FastifyInstance } from "fastify";
 import UserController from "../controllers/user.controller";
 import UserMiddleware from "../middlewares/user.middleware";
+import JwtMiddleware from "../middlewares/jwt.middleware";
 
 class UserRouter {
   userMiddleware: UserMiddleware;
   userController: UserController;
+  jwtMiddleware: JwtMiddleware;
 
   constructor() {
     this.userMiddleware = new UserMiddleware();
     this.userController = new UserController();
+    this.jwtMiddleware = new JwtMiddleware();
 
     this.routes = this.routes.bind(this);
     this.addSchemas = this.addSchemas.bind(this);
@@ -70,7 +73,10 @@ class UserRouter {
             },
           },
         },
-        preHandler: [this.userMiddleware.validateUserId],
+        preHandler: [
+          this.userMiddleware.validateUserId,
+          this.jwtMiddleware.isAccessTokenValid,
+        ],
       },
       this.userController.updateUser
     );
