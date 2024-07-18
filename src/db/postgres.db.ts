@@ -15,13 +15,13 @@ class PostgresDB {
     });
   }
 
-  public connect(): Promise<pg.PoolClient> {
+  public connect = (): Promise<pg.PoolClient> => {
     return this.pool.connect();
-  }
+  };
 
-  public async disconnect(): Promise<void> {
+  public disconnect = async (): Promise<void> => {
     await this.pool.end();
-  }
+  };
 }
 
 export default PostgresDB;

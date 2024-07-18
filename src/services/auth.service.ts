@@ -11,11 +11,9 @@ class AuthService {
   constructor() {
     this.userService = new UserService();
     this.jwtService = new JwtService();
-
-    this.signIn = this.signIn.bind(this);
   }
 
-  public async signIn(reply: FastifyReply, userDto: AuthDto) {
+  public signIn = async (reply: FastifyReply, userDto: AuthDto) => {
     const user = await this.userService.findOne(`email = '${userDto.email}'`);
 
     if (!user) throw new CustomError("User not found", 404);
@@ -35,7 +33,7 @@ class AuthService {
     await this.jwtService.createJwt({ token });
 
     return token;
-  }
+  };
 }
 
 export default AuthService;

@@ -8,50 +8,43 @@ class UserService {
 
   constructor() {
     this.userRepository = new UserRepository();
-
-    this.createUser = this.createUser.bind(this);
-    this.getUsers = this.getUsers.bind(this);
-    this.getUserById = this.getUserById.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
-    this.findOne = this.findOne.bind(this);
   }
 
-  public getUsers(): Promise<IUser[]> {
+  public getUsers = (): Promise<IUser[]> => {
     return this.userRepository.getUsers();
-  }
+  };
 
-  public async getUserById(id: string): Promise<IUser> {
+  public getUserById = async (id: string): Promise<IUser> => {
     const user = await this.userRepository.getUserById(id);
 
     if (!user) throw new CustomError("User not found", 404);
 
     return user;
-  }
+  };
 
-  public createUser(data: UserDto): Promise<IUser> {
+  public createUser = (data: UserDto): Promise<IUser> => {
     return this.userRepository.createUser({
       name: data.name,
       email: data.email,
       password: data.password,
     });
-  }
+  };
 
-  public updateUser(id: string, data: UserDto): Promise<IUser | null> {
+  public updateUser = (id: string, data: UserDto): Promise<IUser | null> => {
     return this.userRepository.updateUser(id, {
       name: data.name,
       email: data.email,
       password: data.password,
     });
-  }
+  };
 
-  public async deleteUser(id: string): Promise<void> {
+  public deleteUser = async (id: string): Promise<void> => {
     await this.userRepository.deleteUser(id);
-  }
+  };
 
-  public findOne(query: string): Promise<IUser | null> {
+  public findOne = (query: string): Promise<IUser | null> => {
     return this.userRepository.findOne(query);
-  }
+  };
 }
 
 export default UserService;

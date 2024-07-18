@@ -6,22 +6,20 @@ class UserMiddleware {
 
   constructor() {
     this.userService = new UserService();
-
-    this.validateUserId = this.validateUserId.bind(this);
   }
 
-  public async validateUserId(
+  public validateUserId = async (
     request: FastifyRequest<{
       Params: {
         id: string;
       };
     }>,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<void> => {
     const { id } = request.params;
 
     await this.userService.getUserById(id);
-  }
+  };
 }
 
 export default UserMiddleware;

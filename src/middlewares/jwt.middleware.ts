@@ -1,14 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 class JwtMiddleware {
-  public async isAccessTokenValid(
+  public isAccessTokenValid = async (
     request: FastifyRequest,
     reply: FastifyReply
-  ): Promise<void> {
+  ): Promise<void> => {
     const payload = await request.jwtVerify();
 
     request.user = payload;
-  }
+  };
 }
 
 export default JwtMiddleware;

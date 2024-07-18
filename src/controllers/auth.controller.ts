@@ -7,11 +7,9 @@ class AuthController {
 
   constructor() {
     this.authService = new AuthService();
-
-    this.signIn = this.signIn.bind(this);
   }
 
-  public async signIn(
+  public signIn = async (
     request: FastifyRequest<{
       Body: {
         email: string;
@@ -19,7 +17,7 @@ class AuthController {
       };
     }>,
     reply: FastifyReply
-  ) {
+  ) => {
     const userDto: AuthDto = {
       email: request.body.email,
       password: request.body.password,
@@ -28,7 +26,7 @@ class AuthController {
     const token = await this.authService.signIn(reply, userDto);
 
     return reply.status(200).send({ token });
-  }
+  };
 }
 
 export default AuthController;

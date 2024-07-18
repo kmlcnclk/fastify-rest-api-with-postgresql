@@ -10,20 +10,20 @@ export class PostgreSQLDao<T> implements BaseDao<T> {
     this.tableName = tableName;
   }
 
-  async findAll(): Promise<T[]> {
+  public findAll = async (): Promise<T[]> => {
     const result = await this.pool.query(`SELECT * FROM ${this.tableName}`);
     return result.rows;
-  }
+  };
 
-  async findById(id: string): Promise<T | null> {
+  public findById = async (id: string): Promise<T | null> => {
     const result = await this.pool.query(
       `SELECT * FROM ${this.tableName} WHERE id = $1`,
       [id]
     );
     return result.rows[0] || null;
-  }
+  };
 
-  async create(item: T): Promise<T> {
+  public create = async (item: T): Promise<T> => {
     const keys = Object.keys(item as {}).join(", ");
     const values = Object.values(item as {});
     const placeholders = values.map((_, i) => `$${i + 1}`).join(", ");
@@ -34,9 +34,9 @@ export class PostgreSQLDao<T> implements BaseDao<T> {
     );
 
     return result.rows[0];
-  }
+  };
 
-  async update(id: string, item: T): Promise<T | null> {
+  public update = async (id: string, item: T): Promise<T | null> => {
     const updates = Object.keys(item as {})
       .map((key, i) => `${key} = $${i + 2}`)
       .join(", ");
@@ -48,17 +48,17 @@ export class PostgreSQLDao<T> implements BaseDao<T> {
     );
 
     return result.rows[0] || null;
-  }
+  };
 
-  async delete(id: string): Promise<void> {
+  public delete = async (id: string): Promise<void> => {
     await this.pool.query(`DELETE FROM ${this.tableName} WHERE id = $1`, [id]);
-  }
+  };
 
-  async findOne(query: any): Promise<T | null> {
+  public findOne = async (query: any): Promise<T | null> => {
     const result = await this.pool.query(
       `SELECT * FROM ${this.tableName} WHERE ${query}`
     );
 
     return result.rows[0] || null;
-  }
+  };
 }

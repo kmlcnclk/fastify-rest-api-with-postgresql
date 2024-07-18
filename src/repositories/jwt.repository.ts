@@ -13,26 +13,23 @@ class JwtRepository {
       this.postgresDB.pool,
       process.env.JWT_TABLE_NAME as string
     );
-
-    this.createJwt = this.createJwt.bind(this);
-    this.getJwts = this.getJwts.bind(this);
   }
 
-  public async getJwts(): Promise<IJwt[]> {
+  public getJwts = async (): Promise<IJwt[]> => {
     const pool = await this.postgresDB.connect();
     const jwts = await this.jwtDao.findAll();
     await pool.release();
 
     return jwts;
-  }
+  };
 
-  public async createJwt({ token }: CreateJwtType): Promise<IJwt> {
+  public createJwt = async ({ token }: CreateJwtType): Promise<IJwt> => {
     const pool = await this.postgresDB.connect();
     const jwt = await this.jwtDao.create({ token });
     await pool.release();
 
     return jwt;
-  }
+  };
 }
 
 export default JwtRepository;

@@ -12,12 +12,9 @@ class UserRouter {
     this.userMiddleware = new UserMiddleware();
     this.userController = new UserController();
     this.jwtMiddleware = new JwtMiddleware();
-
-    this.routes = this.routes.bind(this);
-    this.addSchemas = this.addSchemas.bind(this);
   }
 
-  public addSchemas(fastify: FastifyInstance) {
+  public addSchemas = (fastify: FastifyInstance) => {
     fastify.addSchema({
       $id: "createUserSchema",
       type: "object",
@@ -28,9 +25,9 @@ class UserRouter {
         password: { type: "string" },
       },
     });
-  }
+  };
 
-  public async routes(fastify: FastifyInstance) {
+  public routes = async (fastify: FastifyInstance) => {
     this.addSchemas(fastify);
 
     fastify.get("/", this.userController.getUsers);
@@ -96,7 +93,7 @@ class UserRouter {
       },
       this.userController.deleteUser
     );
-  }
+  };
 }
 
 export default UserRouter;

@@ -6,12 +6,9 @@ class AuthRouter {
 
   constructor() {
     this.authController = new AuthController();
-
-    this.routes = this.routes.bind(this);
-    this.addSchemas = this.addSchemas.bind(this);
   }
 
-  public addSchemas(fastify: FastifyInstance) {
+  public addSchemas = (fastify: FastifyInstance) => {
     fastify.addSchema({
       $id: "signInSchema",
       type: "object",
@@ -21,9 +18,9 @@ class AuthRouter {
         password: { type: "string" },
       },
     });
-  }
+  };
 
-  public async routes(fastify: FastifyInstance) {
+  public routes = async (fastify: FastifyInstance) => {
     this.addSchemas(fastify);
 
     fastify.post(
@@ -35,7 +32,7 @@ class AuthRouter {
       },
       this.authController.signIn
     );
-  }
+  };
 }
 
 export default AuthRouter;

@@ -6,18 +6,15 @@ class JwtService {
 
   constructor() {
     this.jwtRepository = new JwtRepository();
-
-    this.getJwts = this.getJwts.bind(this);
-    this.createJwt = this.createJwt.bind(this);
   }
 
-  public async getJwts(): Promise<IJwt[]> {
+  public getJwts = async (): Promise<IJwt[]> => {
     return await this.jwtRepository.getJwts();
-  }
+  };
 
-  public async createJwt({ token }: { token: string }): Promise<IJwt> {
+  public createJwt = async ({ token }: { token: string }): Promise<IJwt> => {
     return await this.jwtRepository.createJwt({ token });
-  }
+  };
 }
 
 export default JwtService;

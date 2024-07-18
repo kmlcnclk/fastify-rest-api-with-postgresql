@@ -13,72 +13,65 @@ class UserRepository {
       this.postgresDB.pool,
       process.env.USER_TABLE_NAME as string
     );
-
-    this.createUser = this.createUser.bind(this);
-    this.getUsers = this.getUsers.bind(this);
-    this.getUserById = this.getUserById.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
-    this.findOne = this.findOne.bind(this);
   }
 
-  public async getUsers(): Promise<IUser[]> {
+  public getUsers = async (): Promise<IUser[]> => {
     const pool = await this.postgresDB.connect();
     const users = await this.userDao.findAll();
 
     await pool.release();
 
     return users;
-  }
+  };
 
-  public async getUserById(id: string): Promise<IUser | null> {
+  public getUserById = async (id: string): Promise<IUser | null> => {
     const pool = await this.postgresDB.connect();
 
     const user = await this.userDao.findById(id);
     await pool.release();
 
     return user;
-  }
+  };
 
-  public async createUser({
+  public createUser = async ({
     name,
     email,
     password,
-  }: CreateUserType): Promise<IUser> {
+  }: CreateUserType): Promise<IUser> => {
     const pool = await this.postgresDB.connect();
 
     const user = await this.userDao.create({ name, email, password });
     await pool.release();
 
     return user;
-  }
+  };
 
-  public async updateUser(
+  public updateUser = async (
     id: string,
     data: CreateUserType
-  ): Promise<IUser | null> {
+  ): Promise<IUser | null> => {
     const pool = await this.postgresDB.connect();
     const user = await this.userDao.update(id, data);
 
     await pool.release();
 
     return user;
-  }
+  };
 
-  public async deleteUser(id: string): Promise<void> {
+  public deleteUser = async (id: string): Promise<void> => {
     const pool = await this.postgresDB.connect();
     await this.userDao.delete(id);
 
     await pool.release();
-  }
+  };
 
-  public async findOne(query: string): Promise<IUser | null> {
+  public findOne = async (query: string): Promise<IUser | null> => {
     const pool = await this.postgresDB.connect();
     const user = await this.userDao.findOne(query);
     await pool.release();
 
     return user;
-  }
+  };
 }
 
 export default UserRepository;

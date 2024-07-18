@@ -7,16 +7,9 @@ class UserController {
 
   constructor() {
     this.userService = new UserService();
-
-    this.createUser = this.createUser.bind(this);
-    this.getUserById = this.getUserById.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
-    this.getUsers = this.getUsers.bind(this);
-    this.updateUser = this.updateUser.bind(this);
   }
 
-  public async createUser(
+  public createUser = async (
     request: FastifyRequest<{
       Body: {
         name: string;
@@ -25,7 +18,7 @@ class UserController {
       };
     }>,
     reply: FastifyReply
-  ) {
+  ) => {
     const userDto: UserDto = {
       name: request.body.name,
       email: request.body.email,
@@ -38,16 +31,16 @@ class UserController {
       .code(201)
       .header("Content-Type", "application/json; charset=utf-8")
       .send({ message: "User successfully created", data: newUser });
-  }
+  };
 
-  public async getUserById(
+  public getUserById = async (
     request: FastifyRequest<{
       Params: {
         id: string;
       };
     }>,
     reply: FastifyReply
-  ) {
+  ) => {
     const id = request.params.id;
 
     const user = await this.userService.getUserById(id);
@@ -56,16 +49,16 @@ class UserController {
       .code(200)
       .header("Content-Type", "application/json; charset=utf-8")
       .send({ data: user });
-  }
+  };
 
-  public async deleteUser(
+  public deleteUser = async (
     request: FastifyRequest<{
       Params: {
         id: string;
       };
     }>,
     reply: FastifyReply
-  ) {
+  ) => {
     const id = request.params.id;
 
     await this.userService.deleteUser(id);
@@ -74,18 +67,18 @@ class UserController {
       .code(200)
       .header("Content-Type", "application/json; charset=utf-8")
       .send({ message: "User successfully deleted" });
-  }
+  };
 
-  public async getUsers(request: FastifyRequest, reply: FastifyReply) {
+  public getUsers = async (request: FastifyRequest, reply: FastifyReply) => {
     const users = await this.userService.getUsers();
 
     return reply
       .code(200)
       .header("Content-Type", "application/json; charset=utf-8")
       .send({ data: users });
-  }
+  };
 
-  public async updateUser(
+  public updateUser = async (
     request: FastifyRequest<{
       Params: {
         id: string;
@@ -97,7 +90,7 @@ class UserController {
       };
     }>,
     reply: FastifyReply
-  ) {
+  ) => {
     const id = request.params.id;
 
     const userDto: UserDto = {
@@ -112,6 +105,6 @@ class UserController {
       .code(200)
       .header("Content-Type", "application/json; charset=utf-8")
       .send({ message: "User successfully updated", data: updatedUser });
-  }
+  };
 }
 export default UserController;
