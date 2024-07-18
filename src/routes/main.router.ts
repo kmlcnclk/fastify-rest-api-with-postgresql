@@ -27,7 +27,7 @@ class MainRouter {
 
   private async addJwtPlugin(fastify: FastifyInstance) {
     await fastify.register(fastifyJwt, {
-      secret: "supersecret",
+      secret: process.env.TOKEN_SECRET as string,
     });
 
     await fastify.decorate("authenticate", this.verifyToken);

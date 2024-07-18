@@ -9,7 +9,10 @@ class UserRepository {
   constructor() {
     this.postgresDB = new PostgresDB();
 
-    this.userDao = new PostgreSQLDao<IUser>(this.postgresDB.pool, "usersaaa");
+    this.userDao = new PostgreSQLDao<IUser>(
+      this.postgresDB.pool,
+      process.env.USER_TABLE_NAME as string
+    );
 
     this.createUser = this.createUser.bind(this);
     this.getUsers = this.getUsers.bind(this);

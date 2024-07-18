@@ -5,11 +5,13 @@ class PostgresDB {
 
   constructor() {
     this.pool = new pg.Pool({
-      user: "admin",
-      host: "localhost",
-      database: "asd",
-      password: "admin",
-      port: 5431,
+      user: process.env.POSTGRES_USER as string,
+      host: process.env.POSTGRES_HOST as string,
+      database: process.env.POSTGRES_DATABASE as string,
+      password: process.env.POSTGRES_PASSWORD as string,
+      port: (process.env.POSTGRES_PORT as string)
+        ? parseInt(process.env.POSTGRES_PORT as string)
+        : 5431,
     });
   }
 

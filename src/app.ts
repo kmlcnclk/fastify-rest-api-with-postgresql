@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import MainRouter from "./routes/main.router";
+import dotenv from "dotenv";
 
 const fastify = Fastify({
   logger: {
@@ -13,6 +14,8 @@ const fastify = Fastify({
 });
 
 async function main() {
+  await dotenv.config({ path: "" });
+
   const mainRouter = new MainRouter();
 
   await fastify.setErrorHandler((error, request, reply) => {
@@ -22,8 +25,10 @@ async function main() {
   await fastify.register(mainRouter.routes, { prefix: "/api" });
 
   await fastify.listen({
-    port: 3000,
-    host: "0.0.0.0",
+    port: (process.env.PORT as string)
+      ? parseInt(process.env.PORT as string)
+      : 3000,
+    host: (process.env.HOST as string) || "0.0.0.0",
   });
 }
 

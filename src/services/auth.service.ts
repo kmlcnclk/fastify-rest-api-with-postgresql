@@ -23,7 +23,14 @@ class AuthService {
     if (user.password !== userDto.password)
       throw new CustomError("Invalid credentials", 401);
 
-    const token = await reply.jwtSign({ id: user.id, email: user.email });
+    const token = await reply.jwtSign(
+      { id: user.id, email: user.email },
+      {
+        sign: {
+          expiresIn: "21d",
+        },
+      }
+    );
 
     await this.jwtService.createJwt({ token });
 

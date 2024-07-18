@@ -9,7 +9,10 @@ class JwtRepository {
   constructor() {
     this.postgresDB = new PostgresDB();
 
-    this.jwtDao = new PostgreSQLDao<IJwt>(this.postgresDB.pool, "jwts");
+    this.jwtDao = new PostgreSQLDao<IJwt>(
+      this.postgresDB.pool,
+      process.env.JWT_TABLE_NAME as string
+    );
 
     this.createJwt = this.createJwt.bind(this);
     this.getJwts = this.getJwts.bind(this);
